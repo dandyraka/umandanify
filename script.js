@@ -7,10 +7,10 @@ const umandanify = (sentence) => {
             result += letter + "| ";
             vocal = false;
             continue;
-        } else if ("aiueo".includes(letter)) {
+        } else if ("aiueoAIUEO".includes(letter)) {
             vocal = true;
             result += letter;
-        } else if ("bcdfghjklmnpqrstvwxyz".includes(letter)) {
+        } else if ("bcdfghjklmnpqrstvwxyz".includes(letter.toLowerCase())) {
             result += letter;
         } else {
             result += " " + letter + " ";
@@ -27,13 +27,13 @@ const umandanify = (sentence) => {
     result = "";
     for (const s of ss.split(" ")) {
         if (s.length === 3 && s.slice(0, 2) !== "ng" && s.slice(0, 2) !== "ny") {
-            result += s[0] + " " + s.slice(1);
+            result += s[0] + s.slice(1);
         } else if (s.length === 4 && s.slice(0, 2) === "ng") {
-            result += s.slice(0, 2) + " " + s.slice(2);
+            result += s.slice(0, 2) + s.slice(2);
         } else if (s.length === 4 && s.slice(1, 4) === "nya") {
-            result += s[0] + " " + s.slice(1);
+            result += s[0] + s.slice(1);
         } else if (s.length === 4 && s.slice(1, 4) !== "nya") {
-            result += s[0] + " " + s[1] + " " + s.slice(2);
+            result += s[0] + s[1] + s.slice(2);
         } else {
             result += s;
         }
@@ -44,6 +44,11 @@ const umandanify = (sentence) => {
         .replace(/o/g, "opro")
         .replace(/u/g, "upru")
         .replace(/a/g, "aiden")
+        .replace(/I/g, "Ipri")
+        .replace(/E/g, "Epre")
+        .replace(/O/g, "Opro")
+        .replace(/U/g, "Upru")
+        .replace(/A/g, "Aiden")
         .replace(/ (\w) /g, " $1es ")
         .replace(/^(\w) /g, "$1es ")
         .replace(/ ng /g, " strengen ")
