@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Standard SEO Meta Tags -->
+    <meta name="description" content="Generate  Dream JKT48 Theater Line Up.">
+    <meta name="keywords" content="generate, dream, jkt48, theater, line up">
+    <meta name="author" content="Dandy">
+
+    <!-- Facebook Meta Tags -->
+    <meta property="og:url" content="https://jkt48live.github.io/tictactoe">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Umandanify">
+    <meta property="og:description" content="Generate & Translate bahasa Umandana">
+    <meta property="og:image" content="https://telegra.ph/file/867f2bfb2b42def59fe57.png">
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Umandanify">
+    <meta name="twitter:description" content="Generate & Translate bahasa Umandana">
+    <meta name="twitter:image" content="https://telegra.ph/file/867f2bfb2b42def59fe57.png">
+    <meta name="twitter:site" content="@da_n_dy">
+    <meta name="twitter:creator" content="@da_n_dy">
+    <link rel="icon" type="image/x-icon" href="https://telegra.ph/file/3f9ea7e5d82bc653f8ccc.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope&display=swap" rel="stylesheet">
+
+    <style>
+        .radio {
+            color: black;
+            background-color: #e2e8f0;
+        }
+        #umandana:checked + .radio,
+        #deumandana:checked + .radio {
+            color: white;
+            background-color: #1956db;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 h-screen flex flex-col justify-center items-center">
+    <div class="w-96 bg-white p-4 rounded shadow-md">
+        <h1 class="text-xl font-semibold text-center mb-4">Umandanify</h1>
+        <small class="block italic text-gray-600 border-l-4 border-blue-500 pl-4 py-2 mb-4">
+            "Umandanify" adalah sebuah penyebutan kami saja, berasal dari bahasa "rahasia" yang digunakan oleh Mutiara Azzahra Umandana (Muthe JKT48) 
+            beserta anggota keluarganya. Kami berusaha untuk memecahkan kode bahasa tersebut agar dapat dimengerti, bahkan mengonversi bahasa Indonesia 
+            menjadi bahasa Umandana.
+        </small>
+        <div class="flex justify-center items-center mb-4">
+            <div class="inline-flex rounded-lg">
+                <input type="radio" name="translation_mode" id="umandana" value="umandana" checked hidden/>
+                <label for="umandana" class="radio text-center self-center py-2 px-4 rounded-lg cursor-pointer hover:opacity-75">Umandanify</label>
+                <input type="radio" name="translation_mode" id="deumandana" value="deumandana" hidden/>
+                <label for="deumandana" class="radio text-center self-center py-2 px-4 rounded-lg cursor-pointer hover:opacity-75">Deumandanify</label>
+            </div>
+        </div>
+        <textarea id="inputTextArea" class="w-full h-24 border border-gray-300 rounded p-2 mb-4" placeholder="Ketik sesuatu..."></textarea>
+        <textarea id="outputTextArea" class="w-full h-24 border border-gray-300 rounded p-2" placeholder="Hasilnya akan muncul disini..." readonly></textarea>
+    </div>
+
+    <footer class="mt-8 text-center">
+        <div class="flex justify-center space-x-4">
+          <a href="https://twitter.com/da_n_dy" target="_blank" class="text-gray-500 hover:text-gray-700">
+            <i class="fa-brands fa-x-twitter"></i>
+          </a>
+          <a href="https://github.com/dandyraka" target="_blank" class="text-gray-500 hover:text-gray-700">
+            <i class="fab fa-github"></i>
+          </a>
+        </div>
+        <p class="mt-2 text-sm text-gray-500">Made with &hearts; by Dandy</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
