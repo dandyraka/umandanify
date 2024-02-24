@@ -1,8 +1,10 @@
-const umandanify = (sentence) => {
+const umandanify = (sentence, enableEReplacement = false) => {
     let vocal = false;
     let result = "";
     for (let i = 0; i < sentence.length; i++) {
         const letter = sentence[i];
+        const nextLetter = i + 1 < sentence.length ? sentence[i + 1] : null;
+    
         if (letter === ' ') {
             result += letter + "| ";
             vocal = false;
@@ -12,11 +14,15 @@ const umandanify = (sentence) => {
             result += letter;
         } else if ("bcdfghjklmnpqrstvwxyz".includes(letter.toLowerCase())) {
             result += letter;
+            if (nextLetter && !("aiueoAIUEO".includes(nextLetter))) {
+                result += " ";
+            }
         } else {
             result += " " + letter + " ";
             vocal = false;
             continue;
         }
+    
         if (vocal) {
             result += " ";
             vocal = false;
@@ -57,10 +63,26 @@ const umandanify = (sentence) => {
         .replace(/^ | $/g, "")
         .replace(/ ([^\w])/g, "$1");
 
+    if (enableEReplacement) {
+        result = result.replace(/a/g, "à")
+            .replace(/e/g, "è")
+            .replace(/u/g, "ù")
+            .replace(/A/g, "À")
+            .replace(/E/g, "È")
+            .replace(/U/g, "Ù")
+    }
+
     return result;
 };
 
 const deumandanify = (sentence) => {
+    sentence = sentence.replace(/à/g, "a")
+        .replace(/è/g, "e")
+        .replace(/ù/g, "u")
+        .replace(/À/g, "A")
+        .replace(/È/g, "E")
+        .replace(/Ù/g, "U")
+
     return sentence
         .replace(/(iden|pre|pru|pro|pri)/gi, '')
         .replace(/(strengen)/gi, 'ng')
@@ -72,19 +94,53 @@ document.addEventListener("DOMContentLoaded", () => {
     const outputTextArea = document.getElementById("outputTextArea");
     const umandanaToggle = document.getElementById("umandana");
     const deumandanaToggle = document.getElementById("deumandana");
+    const enableGrave = document.getElementById("enableGrave");
+
+    toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": true,
+        "progressBar": false,
+        "positionClass": "toast-bottom-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+
+    const clipboard = new ClipboardJS(outputTextArea);
+    clipboard.on('success', function(e) {
+        toastr.success('Tepre res saiden lipri nes!')
+        e.clearSelection();
+    });
+
+    clipboard.on('error', function(e) {
+        console.error('Unable to copy text to clipboard', e);
+    });
 
     function translateText() {
         const inputText = inputTextArea.value;
+        const enableEReplacement = enableGrave.checked;
+
         let translatedText = "";
+
         if (umandanaToggle.checked) {
-            translatedText = umandanify(inputText);
+            translatedText = umandanify(inputText, enableEReplacement);
         } else if (deumandanaToggle.checked) {
             translatedText = deumandanify(inputText);
         }
+
         outputTextArea.value = translatedText;
     }
-    
+
     inputTextArea.addEventListener("input", translateText);
     umandanaToggle.addEventListener("change", translateText);
     deumandanaToggle.addEventListener("change", translateText);
+    enableGrave.addEventListener("change", translateText);
 });

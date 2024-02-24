@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Umandanify - Generate & Translate bahasa Umandana</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
     
     <!-- Standard SEO Meta Tags -->
     <meta name="description" content="Generate & Translate bahasa Umandana">
@@ -42,6 +43,10 @@
             color: white;
             background-color: #1956db;
         }
+        input:checked ~ .dot {
+            transform: translateX(100%);
+            background-color: #1956db;
+        }
     </style>
 </head>
 <body class="bg-gray-100 h-screen flex flex-col justify-center items-center">
@@ -61,7 +66,16 @@
             </div>
         </div>
         <textarea id="inputTextArea" class="w-full h-24 border border-gray-300 rounded p-2 mb-4" placeholder="Ketik sesuatu..."></textarea>
-        <textarea id="outputTextArea" class="w-full h-24 border border-gray-300 rounded p-2" placeholder="Hasilnya akan muncul disini..." readonly></textarea>
+        <textarea id="outputTextArea" class="w-full h-24 border border-gray-300 rounded p-2" placeholder="Hasilnya akan muncul disini..." data-clipboard-target="#outputTextArea" readonly></textarea>
+
+        <label for="enableGrave" class="flex items-center cursor-pointer">
+            <div class="relative">
+                <input type="checkbox" id="enableGrave" class="sr-only">
+                <div class="block bg-gray-300 w-14 h-8 rounded-full"></div>
+                <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition"></div>
+            </div>
+            <div class="ml-3 text-gray-700 font-medium">Grave accent</div>
+        </label>
     </div>
 
     <footer class="mt-8 text-center">
@@ -75,6 +89,10 @@
         </div>
         <p class="mt-2 text-sm text-gray-500">Made with &hearts; by Dandy</p>
     </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
