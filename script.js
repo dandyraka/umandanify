@@ -95,6 +95,7 @@ const deumandanify = (sentence) => {
         .replace(/(.)(es)/gi, '$1');
 };
 
+/* Audio */
 const textToSpeech = async ({ text, voice }) => {
     const requestOptions = {
         method: 'POST',
@@ -140,15 +141,29 @@ const playFallback = () => {
     utterance.lang = 'fr-FR';
     speechSynthesis.speak(utterance);
 };
+/* End */
 
-document.addEventListener("DOMContentLoaded", () => {
-    const inputTextArea = document.getElementById("inputTextArea");
-    const outputTextArea = document.getElementById("outputTextArea");
-    const umandanaToggle = document.getElementById("umandana");
-    const deumandanaToggle = document.getElementById("deumandana");
-    const enableGrave = document.getElementById("enableGrave");
-    const speakButton = document.getElementById("speakButton");
+/* Dark Mode */
+const options = {
+    bottom: '32px',
+    right: '32px',
+    left: 'unset',
+    time: '0.5s',
+    mixColor: '#fff',
+    backgroundColor: '#fff',
+    buttonColorDark: '#100f2c',
+    buttonColorLight: '#fff',
+    saveInCookies: true,
+    label: '🌓',
+    autoMatchOsTheme: true
+}
 
+function addDarkmodeWidget() {
+    new Darkmode(options).showWidget();
+}
+/* End */
+
+$(document).ready(function () {
     toastr.options = {
         "closeButton": false,
         "debug": false,
@@ -167,40 +182,40 @@ document.addEventListener("DOMContentLoaded", () => {
         "hideMethod": "fadeOut"
     }
 
-    const clipboard = new ClipboardJS(outputTextArea);
-    clipboard.on('success', function(e) {
-        toastr.success('Tepre res saiden lipri nes!')
+    const clipboard = new ClipboardJS('#outputTextArea');
+    clipboard.on('success', function (e) {
+        toastr.success('Tepre res saiden lipri nes!');
         e.clearSelection();
     });
 
-    clipboard.on('error', function(e) {
+    clipboard.on('error', function (e) {
         console.error('Unable to copy text to clipboard', e);
     });
 
     function translateText() {
-        const inputText = inputTextArea.value;
-        const enableEReplacement = enableGrave.checked;
+        const inputText = $('#inputTextArea').val();
+        const enableEReplacement = $('#enableGrave').prop('checked');
 
         let translatedText = "";
 
-        if (umandanaToggle.checked) {
+        if ($('#umandana').prop('checked')) {
             translatedText = umandanify(inputText, enableEReplacement);
-        } else if (deumandanaToggle.checked) {
+        } else if ($('#deumandana').prop('checked')) {
             translatedText = deumandanify(inputText);
         }
 
-        outputTextArea.value = translatedText;
+        $('#outputTextArea').val(translatedText);
     }
 
-    inputTextArea.addEventListener("input", translateText);
-    umandanaToggle.addEventListener("change", translateText);
-    deumandanaToggle.addEventListener("change", translateText);
-    enableGrave.addEventListener("change", translateText);
+    $('#inputTextArea').on("input", translateText);
+    $('#umandana, #deumandana, #enableGrave').on("change", translateText);
 
-    speakButton.addEventListener('click', () => {
-        const outputText = outputTextArea.value;
+    $('#speakButton').on('click', function () {
+        const outputText = $('#outputTextArea').val();
         const selectedVoice = 'fr-FR';
 
         textToSpeech({ text: outputText, voice: selectedVoice });
     });
+
+    $(window).on('load', addDarkmodeWidget);
 });
