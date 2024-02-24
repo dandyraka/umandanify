@@ -95,6 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const umandanaToggle = document.getElementById("umandana");
     const deumandanaToggle = document.getElementById("deumandana");
     const enableGrave = document.getElementById("enableGrave");
+    const speakButton = document.getElementById("speakButton");
 
     toastr.options = {
         "closeButton": false,
@@ -143,4 +144,11 @@ document.addEventListener("DOMContentLoaded", () => {
     umandanaToggle.addEventListener("change", translateText);
     deumandanaToggle.addEventListener("change", translateText);
     enableGrave.addEventListener("change", translateText);
+
+    speakButton.addEventListener('click', () => {
+        const utterance = new SpeechSynthesisUtterance(outputTextArea.value);
+        utterance.lang = 'fr-FR';
+        speechSynthesis.speak(utterance);
+    });
+
 });
