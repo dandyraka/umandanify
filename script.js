@@ -89,6 +89,52 @@ const deumandanify = (sentence) => {
         .replace(/(.)(es)/gi, '$1');
 };
 
+const textToSpeech = async ({ text, voice }) => {
+    const requestOptions = {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json',
+            'User-Agent': 'SoundOfTextClient',
+        },
+        body: JSON.stringify({ engine: 'Google', data: { text, voice } }),
+    };
+
+    try {
+        const response = await fetch(`https://api.soundoftext.com/sounds`, requestOptions);
+        if (!response.ok) {
+            throw new Error('Error during API request');
+        }
+
+        const { id } = await response.json();
+        await playAudio(id);
+    } catch (error) {
+        console.error('Error during text-to-speech:', error);
+        playFallback();
+    }
+};
+
+const playAudio = async (id, timeout = 1000) => {
+    try {
+        const audio = new Audio(`https://files.soundoftext.com/${id}.mp3`);
+        await audio.play();
+
+        return new Promise(resolve => {
+            audio.onended = () => resolve();
+            setTimeout(() => resolve(), timeout);
+        });
+    } catch (error) {
+        console.error('Error during audio playback:', error);
+        playFallback();
+    }
+};
+  
+const playFallback = () => {
+    const utterance = new SpeechSynthesisUtterance(outputTextArea.value);
+    utterance.lang = 'fr-FR';
+    speechSynthesis.speak(utterance);
+};
+
 document.addEventListener("DOMContentLoaded", () => {
     const inputTextArea = document.getElementById("inputTextArea");
     const outputTextArea = document.getElementById("outputTextArea");
@@ -146,9 +192,9 @@ document.addEventListener("DOMContentLoaded", () => {
     enableGrave.addEventListener("change", translateText);
 
     speakButton.addEventListener('click', () => {
-        const utterance = new SpeechSynthesisUtterance(outputTextArea.value);
-        utterance.lang = 'fr-FR';
-        speechSynthesis.speak(utterance);
-    });
+        const outputText = outputTextArea.value;
+        const selectedVoice = 'fr-FR';
 
+        textToSpeech({ text: outputText, voice: selectedVoice });
+    });
 });
