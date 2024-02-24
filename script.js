@@ -1,6 +1,7 @@
 const umandanify = (sentence, enableEReplacement = false) => {
     let vocal = false;
     let result = "";
+    
     for (let i = 0; i < sentence.length; i++) {
         const letter = sentence[i];
         const nextLetter = i + 1 < sentence.length ? sentence[i + 1] : null;
@@ -14,7 +15,10 @@ const umandanify = (sentence, enableEReplacement = false) => {
             result += letter;
         } else if ("bcdfghjklmnpqrstvwxyz".includes(letter.toLowerCase())) {
             result += letter;
-            if (nextLetter && !("aiueoAIUEO".includes(nextLetter))) {
+            
+            if (nextLetter && letter.match(/n/i) && nextLetter.match(/g/i)) {
+                result += "";
+            } else if (nextLetter && !("aiueoAIUEO".includes(nextLetter))) {
                 result += " ";
             }
         } else {
@@ -29,6 +33,7 @@ const umandanify = (sentence, enableEReplacement = false) => {
             continue;
         }
     }
+    console.log(result)
     const ss = result.replace(/\s+/g, " ");
     result = "";
     for (const s of ss.split(" ")) {
