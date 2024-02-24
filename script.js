@@ -16,7 +16,7 @@ const umandanify = (sentence, enableEReplacement = false) => {
         } else if ("bcdfghjklmnpqrstvwxyz".includes(letter.toLowerCase())) {
             result += letter;
             
-            if (nextLetter && letter.match(/n/i) && nextLetter.match(/g/i)) {
+            if (nextLetter && letter.match(/n/i) && nextLetter.match(/g|y/i)) {
                 result += "";
             } else if (nextLetter && !("aiueoAIUEO".includes(nextLetter))) {
                 result += " ";
@@ -33,7 +33,7 @@ const umandanify = (sentence, enableEReplacement = false) => {
             continue;
         }
     }
-    console.log(result)
+
     const ss = result.replace(/\s+/g, " ");
     result = "";
     for (const s of ss.split(" ")) {
@@ -50,6 +50,7 @@ const umandanify = (sentence, enableEReplacement = false) => {
         }
         result += " ";
     }
+    
     result = result.replace(/i/g, "ipri")
         .replace(/e/g, "epre")
         .replace(/o/g, "opro")
